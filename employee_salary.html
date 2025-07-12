@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Homework -- (Salary Calculation)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+     
+    }
+
+    .container {
+      width: 100%;
+      
+      /* background-color: #fff; */
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      
+      padding: 12px 25px;
+      background-color: #53db57;
+      margin-right: 30px;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #188b1e;
+    }
+
+    .salary-table {
+      margin-top: 40px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .salary-table th, .salary-table td {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .salary-table th {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .salary-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .salary-table tr {
+      background-color: #f1f1f1;
+    }
+    .salary-table tr td{
+        height: 45px;
+    }
+    .container .form-input{
+        width: 70%;
+        margin: auto;
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 7px;
+        margin-top: 30px;
+    }
+    .btn{
+        width: 100%;
+        height: 100%;
+        /* background-color: #c3cfe2; */
+        display: flex;
+        align-items: flex-end;
+        
+    }
+    button:last-child{
+        background-color: rgb(219, 73, 73);
+        transition: background-color 0.3s ease;
+    }
+    button:last-child:hover{
+        background-color: rgb(171, 0, 0);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Salary Calculation</h1>
+    <form class="form-input">
+        
+      <div class="form-group">
+        <label for="txt-base-salary">Employee's Name</label>
+        <input type="text" id="txt-name" />
+      </div>
+
+      <div class="form-group">
+        <label for="txt-base-salary">Basic Salary ($)</label>
+        <input type="number" id="txt-base-salary" />
+      </div>
+
+      <div class="form-group">
+        <label for="txt-day">Work Day (day)</label>
+        <input type="number" id="txt-day" />
+      </div>
+
+      <div class="form-group">
+        <label for="txt-name">Work Hour (hour)</label>
+        <input type="number" id="txt-hour" />
+      </div>
+
+      <div class="form-group">
+        <label for="txt-absent">Absent (day)</label>
+        <input type="number" id="txt-absent" />
+      </div>
+
+      <div class="form-group">
+        <label for="txt-ot">OT (hour)</label>
+        <input type="number" id="txt-ot" />
+      </div>
+
+      <div class="form-group">
+        <label for="txt-bonus">Bonus ($)</label>
+        <input type="number" id="txt-bonus" />
+      </div>
+
+      <div class="form-group">
+        <label for="txt-deduction">Other Deduction (-$)</label>
+        <input type="number" id="txt-deduction" />
+      </div>
+
+      <div class="form-group">
+        <label for="txt-late">Late (min)</label>
+        <input type="number" id="txt-late" />
+      </div>
+        <div class="btn">
+                <button id="txt-calculate" type="button" onclick="CalculateSalary()">Calculate</button>
+                <button id="txt-clear" type="button" >Clear</button>
+        </div>
+      
+
+    </form>
+
+    <h1 >Employee Salary Details</h1>
+    <table class="salary-table">
+      <thead>
+        <tr>
+          <th>Employee's Name</th>
+          <th>Basic Salary ($)</th>
+          <th>Work Day</th>
+          <th>Absent</th>
+          <th>OT (hrs)</th>
+          <th>Bonus ($)</th>
+          <th>Deduction (-$)</th>
+          <th>Late (min)</th>
+          <th>Net Salary</th>
+          <th>Tax</th>
+          <th>Final Salary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="output-name"></td>
+          <td id="output-salary"></td>
+          <td id="output-workday"></td>
+          <td id="output-absent"></td>
+          <td id="output-OT"></td>
+          <td id="output-bonus"></td>
+          <td id="output-deduction"></td>
+          <td id="output-late"></td>
+          <td id="output-net-salary"></td>
+          <td id="output-tax"></td>
+          <td id="output-Final-salary"></td>
+
+        </tr>
+        <!-- More rows can go here dynamically -->
+      </tbody>
+    </table>
+  </div>
+</body>
+<script>
+    
+
+    function Cal_OT_Amount(ot_Hour,base_salary,work_day,work_hour){
+        var RatePerhour = base_salary/ work_day/work_hour;
+        return ot_Hour* RatePerhour*2;
+       
+    }
+    function Cal_Deduction_Amount(base_salary,work_day,work_hour,late){
+        var working_per_hour = base_salary/ work_day/work_hour;
+        return (late/60) * working_per_hour;
+        
+    } 
+
+    function Cal_Tax_Amount(Net_Salary_USD){
+    const Net_Salary = Net_Salary_USD * 4000; 
+    let tax_rate = 0;
+
+        if (Net_Salary < 1500000) {
+            tax_rate = 0;
+        } else if (Net_Salary <= 2200000) {
+            tax_rate = 0.05;
+        } else if (Net_Salary <= 3500000) {
+            tax_rate = 0.10;
+        } else {
+            tax_rate = 0.15;
+        }
+
+        return Net_Salary_USD * tax_rate; // tax in USD
+    }
+
+    function CalculateSalary(){
+       
+        const name = document.getElementById("txt-name").value;
+        const base_salary = parseFloat(document.getElementById("txt-base-salary").value) || 0;
+        const work_day = parseFloat(document.getElementById("txt-day").value) || 1;
+        const work_hour = parseFloat(document.getElementById("txt-hour").value) || 1;
+        const absent = parseFloat(document.getElementById("txt-absent").value) || 0;
+        const ot_Hour = parseFloat(document.getElementById("txt-ot").value) || 0;
+        const bonus = parseFloat(document.getElementById("txt-bonus").value) || 0;
+        const deduction = parseFloat(document.getElementById("txt-deduction").value) || 0;
+        const late = parseFloat(document.getElementById("txt-late").value) || 0;
+
+        const calculate_working_day = work_day-absent;
+        const Total_Period_Working = (base_salary / work_day)* calculate_working_day;
+        // alert(calculate_working_day);
+        
+        const OTAmount = Cal_OT_Amount(ot_Hour,base_salary,work_day,work_hour);
+        // alert("OT Amount: " + OTAmount.toFixed(2));
+
+        const late_deduction_Amount = Cal_Deduction_Amount(base_salary,work_day,work_hour,late);
+        // alert ("Deduction Amount :" + late_deduction_Amount.toFixed(2));
+
+        const Net_Salary = Total_Period_Working + OTAmount + bonus - late_deduction_Amount - deduction;
+        // alert ("Total Salary :" + Total_Salary.toFixed(2));
+
+        const tax = Cal_Tax_Amount(Net_Salary);
+        // alert("tax"+ tax.toFixed(2));
+ 
+        const Final_Salary = Net_Salary - tax;
+
+         // Display results
+        document.getElementById("output-name").innerText = name;
+        document.getElementById("output-salary").innerText ="$"+ base_salary.toFixed(2);
+        document.getElementById("output-workday").innerText = work_day;
+        document.getElementById("output-absent").innerText = absent;
+        document.getElementById("output-OT").innerText = ot_Hour;
+        document.getElementById("output-bonus").innerText ="$"+ bonus.toFixed(2);
+        document.getElementById("output-deduction").innerText ="$"+ deduction.toFixed(2);
+        document.getElementById("output-late").innerText = late;
+        document.getElementById("output-net-salary").innerText ="$"+ Net_Salary.toFixed(2);
+        document.getElementById("output-tax").innerText ="$"+ tax.toFixed(2);
+        document.getElementById("output-Final-salary").innerText ="$"+ Final_Salary.toFixed(2);
+
+    }
+
+
+    document.getElementById('txt-clear').onclick=function(){
+        
+        document.getElementById("txt-name").value = "";
+        document.getElementById("txt-base-salary").value = "";
+        document.getElementById("txt-day").value = "";
+        document.getElementById("txt-hour").value = "";
+        document.getElementById("txt-absent").value = "";
+        document.getElementById("txt-ot").value = "";
+        document.getElementById("txt-bonus").value = "";
+        document.getElementById("txt-deduction").value = "";
+        document.getElementById("txt-late").value = "";
+
+        // Clear output table
+        const outputFields = [
+            "output-name", "output-salary", "output-workday", "output-absent",
+            "output-OT", "output-bonus", "output-deduction", "output-late",
+            "output-net-salary", "output-tax", "output-Final-salary"
+        ];
+        
+        outputFields.forEach(field => {
+            document.getElementById(field).innerText = "";
+        });
+    }
+
+</script>
+
+</html>
+
+
+
+
+
